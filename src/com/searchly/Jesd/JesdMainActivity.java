@@ -51,7 +51,7 @@ public class JesdMainActivity extends Activity {
     }
 
     private void requestApiKey() {
-        final String SEARCHLY_URL = "http://site:c84def3b51011bf5a01a1f36eb93f8e1@bombur-us-east-1.searchly.com";
+        final String SEARCHLY_URL = "http://site:d87a47445dc808449dd78637d9031609@bombur-us-east-1.searchly.com";
         final String CMPUT_301_URL = "http://cmput301.softwareprocess.es:8080/testing/";
     	DroidClientConfig clientConfig = new DroidClientConfig.Builder(SEARCHLY_URL)
     																  .build();
