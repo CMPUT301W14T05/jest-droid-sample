@@ -37,7 +37,8 @@ public class JesdMainActivity extends Activity {
         button.setOnClickListener(new ConnectButtonListener());
     }
 
-    private void simpleAlert(String title, String message) {
+    @SuppressWarnings("deprecation")
+	private void simpleAlert(String title, String message) {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
@@ -50,44 +51,15 @@ public class JesdMainActivity extends Activity {
     }
 
     private void requestApiKey() {
-        LayoutInflater li = LayoutInflater.from(context);
-        View promptsView = li.inflate(R.layout.prompts, null);
+        final String SEARCHLY_URL = "http://site:c84def3b51011bf5a01a1f36eb93f8e1@bombur-us-east-1.searchly.com";
+        final String CMPUT_301_URL = "http://cmput301.softwareprocess.es:8080/testing/";
+    	DroidClientConfig clientConfig = new DroidClientConfig.Builder(SEARCHLY_URL)
+    																  .build();
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        alertDialogBuilder.setView(promptsView);
+    	JestClientFactory jestClientFactory = new JestClientFactory();
+    	jestClientFactory.setDroidClientConfig(clientConfig);
+    	jestClient = jestClientFactory.getObject();
 
-        ((TextView) promptsView.findViewById(R.id.textView1)).setText("Enter your Searchly.com API key:");
-
-        final EditText userInput = (EditText) promptsView.findViewById(R.id.editTextDialogUserInput);
-
-        // set dialog message
-        alertDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton("OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // init jest droid client
-                                DroidClientConfig clientConfig = new DroidClientConfig.Builder("http://site:" + userInput.getText().toString() + "@eu-west-1.searchbox.io").build();
-
-                                JestClientFactory jestClientFactory = new JestClientFactory();
-                                jestClientFactory.setDroidClientConfig(clientConfig);
-                                jestClient = jestClientFactory.getObject();
-                            }
-                        })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Toast.makeText(JesdMainActivity.this, "Cannot continue without a Searchly.com API Key :(", Toast.LENGTH_LONG).show();
-                                finish();
-                                System.exit(0);
-                            }
-                        });
-
-        // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
-
-        // show it
-        alertDialog.show();
     }
 
     public class ConnectButtonListener implements View.OnClickListener {
